@@ -2,8 +2,9 @@ const rect=require('./nodeMod/rectangle')
 const http = require('http');
 const fs = require('fs');
 const path = require('path');
+const express=require('express');
 
-//...............start using node mod...................
+//...............start using node mod.................
 
 function solveRect(l,b) {
     console.log("Solving for rectangle with l = " + l + " and b = " + b);
@@ -62,12 +63,24 @@ const server = http.createServer((req, res) => {
                 ' not supported</h1></body></html>');
     }
   })
+server.listen(port, hostname, () => {
+  console.log(`Server running at http://${hostname}:${port}/`);
+});
 //...............end using  http and path and fs...................
 
+const app=express();
+app.use((req,res,next)=>{
+  res.statusCode=200;
+  res.setHeader('Content-Type', 'text/html');
+  res.end('<html><body><h1>This is an Express Server</h1></body></html>');
+})
+
+const server = http.createServer(app);
 
 server.listen(port, hostname, () => {
   console.log(`Server running at http://${hostname}:${port}/`);
 });
+
 
 // solveRect(2,4);
 // solveRect(0,5);
